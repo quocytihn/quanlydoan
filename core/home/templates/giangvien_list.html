@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Danh sách Giảng viên{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Danh sách Giảng viên</h1>
+<a href="{% url 'giangvien_create' %}" class="btn btn-primary mb-3">Thêm mới Giảng viên</a>
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Mã Giảng viên</th>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Khoa</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for giangvien in giang_vien_list %}
+        <tr>
+            <td>{{ giangvien.ma_giang_vien }}</td>
+            <td>{{ giangvien.ho_ten }}</td>
+            <td>{{ giangvien.email }}</td>
+            <td>{{ giangvien.so_dien_thoai }}</td>
+            <td>{{ giangvien.khoa }}</td>
+            <td>
+                <a href="{% url 'giangvien_update' giangvien.pk %}" class="btn btn-sm btn-warning">Sửa</a>
+                <a href="{% url 'giangvien_delete' giangvien.pk %}" class="btn btn-sm btn-danger">Xóa</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">Không có giảng viên nào.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

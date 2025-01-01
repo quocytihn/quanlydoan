@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Danh sách Sinh viên{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Danh sách Sinh viên</h1>
+<a href="{% url 'sinhvien_create' %}" class="btn btn-primary mb-3">Thêm mới Sinh viên</a>
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Mã Sinh viên</th>
+            <th>Họ tên</th>
+            <th>Số tín chỉ đã đạt</th>
+            <th>GPA</th>
+            <th>Nợ môn</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sinhvien in sinh_vien_list %}
+        <tr>
+            <td>{{ sinhvien.ma_sinh_vien }}</td>
+            <td>{{ sinhvien.ho_ten }}</td>
+            <td>{{ sinhvien.so_tin_chi_da_dat }}</td>
+            <td>{{ sinhvien.gpa }}</td>
+            <td>{{ sinhvien.co_no_mon|yesno:"Có,Không" }}</td>
+            <td>
+                <a href="{% url 'sinhvien_update' sinhvien.pk %}" class="btn btn-sm btn-warning">Sửa</a>
+                <a href="{% url 'sinhvien_delete' sinhvien.pk %}" class="btn btn-sm btn-danger">Xóa</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">Không có sinh viên nào.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

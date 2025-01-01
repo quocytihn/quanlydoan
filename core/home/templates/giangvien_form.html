@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Thêm/Sửa Giảng viên{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">{{ giangvien.id|default:"Thêm mới Giảng viên" }}</h1>
+<form method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Lưu</button>
+    <a href="{% url 'giangvien_list' %}" class="btn btn-secondary">Hủy</a>
+</form>
+{% endblock %}

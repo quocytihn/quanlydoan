@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Thêm/Sửa Sinh viên{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">{{ sinhvien.id|default:"Thêm mới Sinh viên" }}</h1>
+<form method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Lưu</button>
+    <a href="{% url 'sinhvien_list' %}" class="btn btn-secondary">Hủy</a>
+</form>
+{% endblock %}
