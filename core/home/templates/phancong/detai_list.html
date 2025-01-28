@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Danh sách Đề tài</h1>
+<form method="get" class="mb-3">
+    <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Tìm kiếm theo mã hoặc tên đề tài...">
+    <button type="submit" class="btn btn-primary mt-2">Tìm kiếm</button>
+</form>
+<a href="#" class="btn btn-success mb-3">Thêm Đề tài</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã Đề Tài</th>
+            <th>Tên Đề Tài</th>
+            <th>Số lượng tối đa</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in detai %}
+        <tr>
+            <td>{{ item.ma_de_tai }}</td>
+            <td>{{ item.ten_de_tai }}</td>
+            <td>{{ item.so_luong_toi_da }}</td>
+            <td>
+                <a href="{% url 'detai_update' item.pk %}" class="btn btn-primary">Sửa</a>
+                <form action="{% url 'detai_delete' item.pk %}" method="post" style="display:inline-block;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Không có đề tài nào phù hợp.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

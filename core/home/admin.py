@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SinhVien, GiangVien
+from .models import SinhVien, GiangVien, DeTai, DoAn
 
 # Quản lý model SinhVien
 @admin.register(SinhVien)
@@ -16,3 +16,13 @@ class GiangVienAdmin(admin.ModelAdmin):
     search_fields = ('ma_giang_vien', 'ho_ten', 'email', 'khoa')
     list_filter = ('khoa',)
     ordering = ('ma_giang_vien',)
+
+@admin.register(DeTai)
+class DeTaiAdmin(admin.ModelAdmin):
+    list_display = ('ma_de_tai','ten_de_tai','so_luong_toi_da')
+    search_fields = ('ma_de_tai','ten_de_tai')
+
+@admin.register(DoAn)
+class DeTaiAdmin(admin.ModelAdmin):
+    list_display = ('de_tai','sinh_vien','giang_vien_huong_dan',)
+    search_fields = ('de_tai',)
