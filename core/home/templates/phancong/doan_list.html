@@ -5,7 +5,7 @@
     <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Tìm kiếm theo tên sinh viên hoặc mã đề tài...">
     <button type="submit" class="btn btn-primary mt-2">Tìm kiếm</button>
 </form>
-<a href="{% url 'doan_create' %}" class="btn btn-success mb-3">Thêm Đồ án</a>
+<a href="{% url 'doan_create'%}" class="btn btn-success mb-3">Thêm Đồ án</a>
 <table class="table">
     <thead>
         <tr>
@@ -19,11 +19,18 @@
         {% for item in doan %}
         <tr>
             <td>{{ item.de_tai.ma_de_tai }}</td>
-            <td>{{ item.sinh_vien.ten }}</td>
-            <td>{{ item.giang_vien_huong_dan.ho_ten if item.giang_vien_huong_dan else 'N/A' }}</td>
+            <td>{{ item.sinh_vien.ho_ten }}</td>
             <td>
-                <a href="{% url 'doan_update' item.pk %}" class="btn btn-primary">Sửa</a>
-                <form action="{% url 'doan_delete' item.pk %}" method="post" style="display:inline-block;">
+                {% if item.giang_vien_huong_dan %}
+                    {{ item.giang_vien_huong_dan.ho_ten }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            
+            <td>
+                <a href="{% url 'doan_update' item.pk%}" class="btn btn-primary">Sửa</a>
+                <form action="{% url 'doan_delete' item.pk%}" method="post" style="display:inline-block;">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Xóa</button>
                 </form>

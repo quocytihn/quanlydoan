@@ -4,6 +4,8 @@ from .models import *
 from .forms import *  # Form do bạn tự định nghĩa
 from .models import GiangVien
 from .forms import GiangVienForm  # Form do bạn tự định nghĩa
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 
 # Hiển thị danh sách sinh viên
@@ -103,14 +105,40 @@ def detai_delete(request, pk):
         detai.delete()
         return redirect('detai_list')
     return render(request, 'phancong/detai_confirm_delete.html', {'object': detai})
+# Thêm đề tài 
+def add_detai(request):
+    if request.method == 'POST':
+        form = DeTaiForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Đề tài mới đã được thêm thành công!')
+            return redirect('detai_list')  # Chuyển hướng về trang danh sách đề tài
+        else:
+            messages.error(request, 'Có lỗi xảy ra. Vui lòng kiểm tra lại thông tin.')
+    else:
+        form = DeTaiForm()
+    return render(request, 'phancong/add_detai.html', {'form': form})
+# Thêm đồ án
+def doan_create(request):
+    if request.method == 'POST':
+        form = DoAnForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('doan_list')  # Chuyển hướng về danh sách đồ án sau khi thêm
+            except ValueError as e:
+                form.add_error(None, str(e))  # Hiển thị lỗi nếu có
+    else:
+        form = DoAnForm()
 
-
+    return render(request, 'phancong/doan_create.html', {'form': form})
+# Hiện thị đồ án
 def doan_list(request):
     query = request.GET.get('q')  # Lấy từ khóa tìm kiếm từ URL
     doan = DoAn.objects.select_related('de_tai', 'sinh_vien', 'giang_vien_huong_dan')
     if query:
         doan = doan.filter(
-            sinh_vien__ten__icontains=query
+            sinh_vien__ho_ten__icontains=query
         ) | doan.filter(de_tai__ma_de_tai__icontains=query)
     return render(request, 'phancong/doan_list.html', {'doan': doan, 'query': query})
 
@@ -124,7 +152,7 @@ def doan_update(request, pk):
             return redirect('doan_list')
     else:
         form = DoAnForm(instance=doan)
-    return render(request, 'doan_form.html', {'form': form})
+    return render(request, 'phancong/doan_form.html', {'form': form})
 
 # Xóa đồ án
 def doan_delete(request, pk):
@@ -132,4 +160,52 @@ def doan_delete(request, pk):
     if request.method == 'POST':
         doan.delete()
         return redirect('doan_list')
-    return render(request, 'doan_confirm_delete.html', {'object': doan})
+    return render(request, 'phancong/doan_confirm_delete.html', {'object': doan})
+
+
+# Đăng nhập
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("sinhvien_list")  # Điều hướng sau khi đăng nhập thành công
+        else:
+            messages.error(request, "Tên đăng nhập hoặc mật khẩu không đúng.")
+
+    return render(request, "login/login.html")
+
+def hoidong_list(request):
+    hoi_dong = HoiDongCham.objects.all()
+    return render(request, 'hoidongchamthi/list.html', {'hoi_dong': hoi_dong})
+
+def hoi_dong_create(request):
+    if request.method == "POST":
+        form = HoiDongChamForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('hoi_dong_list')
+    else:
+        form = HoiDongChamForm()
+    return render(request, 'hoidongchamthi/form.html', {'form': form})
+
+
+# Xóa hội đồng
+def hoi_dong_delete(request, pk):
+    hoi_dong = get_object_or_404(HoiDongCham, pk=pk)
+    hoi_dong.delete()
+    return redirect('hoi_dong_list')
+# Sửa hội đồng
+def hoi_dong_update(request, pk):
+    hoi_dong = get_object_or_404(HoiDongCham, pk=pk)
+    if request.method == "POST":
+        form = HoiDongChamForm(request.POST, instance=hoi_dong)
+        if form.is_valid():
+            form.save()
+            return redirect('hoi_dong_list')
+    else:
+        form = HoiDongChamForm(instance=hoi_dong)
+    return render(request, 'hoidongchamthi/form.html', {'form': form})

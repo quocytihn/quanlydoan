@@ -44,7 +44,7 @@ class DeTai(models.Model):
 
 class DoAn(models.Model):
     de_tai = models.ForeignKey(DeTai, on_delete=models.CASCADE, related_name='do_an')
-    sinh_vien = models.ForeignKey(SinhVien, on_delete=models.CASCADE, related_name='do_an_sinh_vien',unique=True)
+    sinh_vien = models.ForeignKey(SinhVien, on_delete=models.CASCADE, related_name='do_an_sinh_vien')
     giang_vien_huong_dan = models.ForeignKey(GiangVien, on_delete=models.SET_NULL, null=True, blank=True, related_name='do_an_set')
     #Giảng viên nếu bị xóa thì giảng viên sẽ để trống!
     #kiểm tra 
@@ -57,7 +57,7 @@ class DoAn(models.Model):
 
 
 class HoiDongCham(models.Model):
-    ten_hoi_dong = models.CharField(max_length=100)
+    ten_hoi_dong = models.CharField(max_length=100, unique=True)
     giang_vien = models.ManyToManyField(GiangVien, related_name='hoi_dong')
 
     def so_luong_thanh_vien(self):

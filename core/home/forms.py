@@ -1,5 +1,6 @@
 from django import forms
 from .models import *
+
 class SinhVienForm(forms.ModelForm):
     class Meta:
         model = SinhVien
@@ -19,3 +20,23 @@ class DoAnForm(forms.ModelForm):
     class Meta:
         model = DoAn
         fields = ['de_tai', 'sinh_vien', 'giang_vien_huong_dan']
+
+class DeTaiForm(forms.ModelForm):
+    class Meta:
+        model = DeTai
+        fields = ['ma_de_tai', 'ten_de_tai', 'so_luong_toi_da']
+        widgets = {
+            'ma_de_tai': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Mã đề tài'}),
+            'ten_de_tai': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tên đề tài'}),
+            'so_luong_toi_da': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Số lượng tối đa'}),
+        }
+# Form để thêm đồ án
+class DoAnForm(forms.ModelForm):
+    class Meta:
+        model = DoAn
+        fields = ['de_tai', 'sinh_vien', 'giang_vien_huong_dan']  # Các trường cần điền
+
+class HoiDongChamForm(forms.ModelForm):
+    class Meta:
+        model = HoiDongCham
+        fields = ['ten_hoi_dong', 'giang_vien']

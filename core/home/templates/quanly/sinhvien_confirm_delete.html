@@ -3,11 +3,11 @@
 {% block title %}Xóa Giảng viên{% endblock %}
 
 {% block content %}
-<h1>Xóa Giảng viên</h1>
-<p>Bạn có chắc chắn muốn xóa giảng viên "{{ object.ho_ten }}" (Mã: {{ object.ma_giang_vien }}) không?</p>
+<h1 class="text-white">Xóa Sinh viên</h1>
+<p class="text-white">Bạn có chắc chắn muốn xóa sinh viên "{{ sinhvien.ho_ten }}" (Mã: {{ sinhvien.ma_sinh_vien }}) không?</p>
 <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Xóa</button>
-    <a href="{% url 'giangvien_list' %}" class="btn btn-secondary">Hủy</a>
+    <a href="{% url 'sinhvien_list' %}" class="btn btn-secondary">Hủy</a>
 </form>
 {% endblock %}

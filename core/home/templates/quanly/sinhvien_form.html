@@ -3,8 +3,8 @@
 {% block title %}Thêm/Sửa Sinh viên{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">{{ sinhvien.id|default:"Thêm mới Sinh viên" }}</h1>
-<form method="post" class="needs-validation" novalidate>
+<h1 class="mb-4 text-white">{{ sinhvien.id|default:"Thêm/Sửa Sinh viên" }}</h1>
+<form method="post" class="needs-validation text-white" novalidate>
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-success">Lưu</button>

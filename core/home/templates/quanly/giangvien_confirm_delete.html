@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xóa Giảng viên</title>
-</head>
-<body>
-    <h1>Xóa Giảng viên</h1>
-    <p>Bạn có chắc chắn muốn xóa giảng viên "{{ giangvien.ho_ten }}" không?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Xóa</button>
-        <a href="{% url 'giangvien_list' %}">Hủy</a>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Xóa Giảng viên{% endblock %}
+
+{% block content %}
+<h1 class="text-white">Xóa Giảng viên</h1>
+<p class="text-white">Bạn có chắc chắn muốn xóa Giảng viên "{{ giangvien.ho_ten }}" (Mã: {{ giangvien.ma_giang_vien }}) không?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Xóa</button>
+    <a href="{% url 'giangvien_list' %}" class="btn btn-secondary">Hủy</a>
+</form>
+{% endblock %}

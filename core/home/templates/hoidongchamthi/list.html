@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Danh sách Hội Đồng</h2>
+    <a href="{% url 'hoi_dong_create' %}">Thêm Hội Đồng</a>
+    <ul>
+        {% for hd in hoi_dong %}
+            <li>
+                {{ hd.ten_hoi_dong }} - Số lượng: {{ hd.so_luong_thanh_vien }}
+                <a href="{% url 'hoi_dong_update' hd.id %}">Sửa</a> |
+                <a href="{% url 'hoi_dong_delete' hd.id %}">Xóa</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
